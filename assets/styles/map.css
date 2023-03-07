@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+#map { 
+    height: 96vh;
+    width: 96vw;
+}
