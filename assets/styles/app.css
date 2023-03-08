@@ -176,20 +176,3 @@ span {
     border-bottom:1px solid rgba(255,255,255,.5);
     transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
 }
-
-@media only screen and (max-width: 856px) {
-
-    .img-cycloop {
-        max-width: 120px;
-    }
-
-    .header-menu {
-        height: 75px;
-        background-color: #ffffff00;
-        border-bottom: 1px solid #3d3e3fbf;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-    }
-  }
