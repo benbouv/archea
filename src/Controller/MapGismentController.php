@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
+use App\Repository\PhotoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+class MapGismentController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
-    public function index(): Response
+    #[Route('user/MapGisment', name: 'app_mapGisment')]
+    public function index(PhotoRepository $photoRepository): Response
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+
+        $photos = $photoRepository->findAll();
+
+        return $this->render('mapGisement.html.twig', [
+            'photos' => $photos
         ]);
     }
 
