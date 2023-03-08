@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Photo{% endblock %}
+
+
+
+{% block head %}
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+  <title>Live Photo Capture</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js"></script>
+  <style>
+    #map {
+      height: 100vh;
+    }
+    #video-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 400;
+    }
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 400;
+    }
+  </style>
+  
+
+{% endblock %}
+
+
+{% block body %}
+
+{# TAKE PHOTO #}
+    <div id="map"></div>
+
+    <div id="video-wrapper">
+        <video id="video" autoplay></video>
+    </div>
+    <div>
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <nav class="navbar fixed-bottom navbar-dark bg-dark">
+        <div class="d-flex justify-content-between w-100">
+        <a class="navbar-brand" href="#">ARCHEA</a>
+        <button id="startButton"><i class="bi bi-camera"></i></button>
+        <button id="captureButton" disabled><i class="bi bi-circle-fill"></i></button>
+        <a href=""><i class="bi bi-search"></i></a>
+        </div>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous">
+    </script>
+    <script>
+        // initialize the map
+        var map = L.map('map').setView([48.8566, 2.3522], 13); // Paris coordinates (latitude, longitude)
+
+        // add the tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+        maxZoom: 19,
+        }).addTo(map);
+    </script>
+    <script>
+        const video = document.getElementById('video');
+        const videoWrapper = document.getElementById('video-wrapper');
+        const canvas = document.getElementById('canvas');
+        const startButton = document.getElementById('startButton');
+        const captureButton = document.getElementById('captureButton');
+        const constraints = {
+        video: {
+            width: window.innerWidth,
+            height: window.innerHeight,
+        }
+        };
+
+        canvas.height = window.innerHeight
+        canvas.width = window.innerWidth
+
+        // Request permission to access the camera
+        async function startCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            handleSuccess(stream);
+        } catch (e) {
+            console.error('Error accessing media devices.', e);
+        }
+        }
+
+        // Attach the camera stream to the video element
+        function handleSuccess(stream) {
+        video.srcObject = stream;
+        }
+
+        // Capture a still image from the video stream
+        function captureImage() {
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        const image = canvas.toDataURL('image/png');
+        // Send the image to the server for processing
+        console.log(image);
+        // Stop the video stream
+        const tracks = video.srcObject.getVideoTracks();
+        tracks[0].stop();
+        // Hide the video element and show the canvas element
+        // video.style.display = 'none';
+        videoWrapper.style.display = 'none'
+        canvas.style.display = 'block';
+        }
+
+        startButton.addEventListener('click', () => {
+        startCamera();
+        startButton.disabled = true;
+        captureButton.disabled = false;
+        });
+
+        captureButton.addEventListener('click', () => {
+        captureImage();
+        startButton.replaceWith(captureButton);
+        });
+
+
+
+        tab = [];
+        {% for photo in photos %}
+            tab.push({'title':'{{photo.context}}','lat':'{{photo.latitude}}','lng':'{{photo.longitude}}'});
+        {% endfor %}
+
+
+        for (var i = 0; i < tab.length; i++) {
+            var marker = L.marker([tab[i].lat, tab[i].lng]).addTo(map);
+            marker.bindPopup(tab[i].title);
+        }
+
+
+    </script>
+
+{% endblock %}
+
+
+    
+
+
+
