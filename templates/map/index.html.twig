@@ -28,9 +28,57 @@
         <a style="font-size: 30px; color: #B66B1A;" href="login.html"><i class="bi bi-person-circle"></i></a>
         </div>
     </nav>
+    <script>
+
     
+        var map = L.map('map').setView([49.25544528844216, 4.028328775756626], 14);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        tab = [];
+        {% for photo in photos %}
+            {% if photo.context == "c1" %}
+                {% set URLI = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png' %}
+            {% endif %}
+            {% if photo.context == "c2" %}
+                {% set URLI = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png' %}
+            {% endif %}
+            {% if photo.context == "c3" %}
+                {% set URLI = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png' %}
+            {% endif %}
+            tab.push({ 'iconUrl':'{{ URLI }}','titre':'{{photo.context}}','lat':'{{photo.latitude}}','lng':'{{photo.longitude}}'});
+        {% endfor %}
+        {% set I = 0 %}
+        {% for gisment in gisments %}
+            {% if I < 150 %}
+                {% set I = I + 1 %}
+                {% set URLI = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png' %}
+                tab.push({ 'iconUrl':'{{ URLI }}','titre':'c0','lat':'{{gisment.latitude}}','lng':'{{gisment.longitude}}'});
+            {% endif %}
+        {% endfor %}
+
+
+
+
+        for (var i = 0; i < tab.length; i++) {
+
+            var greenIcon = new L.Icon({
+              iconUrl: tab[i].iconUrl,
+              iconSize: [25, 41]
+            });
+
+            var marker = L.marker([tab[i].lat, tab[i].lng], {icon: greenIcon}).addTo(map);
+            marker.bindPopup(tab[i].titre);
+        }
+
+
+    </script>
+
+
+
 {% endblock %}
 
-{% block javascripts %}
-    {{ encore_entry_script_tags('map') }}
-{% endblock %}
+
