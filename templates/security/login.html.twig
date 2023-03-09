@@ -3,13 +3,8 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-<<<<<<< HEAD
 {% include 'navBar/navbar.html.twig' %}
 <form method="post">
-=======
-<div class="container_connexion"
-<form  class="form_connexion" method="post">
->>>>>>> origin/nicop-mef
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
