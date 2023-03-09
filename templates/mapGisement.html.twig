@@ -147,7 +147,7 @@
         {% endfor %}
         {% set I = 0 %}
         {% for gisment in gisments %}
-            {% if I < 10 %}
+            {% if I < 150 %}
                 {% set I = I + 1 %}
                 {% set URLI = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png' %}
                 tab.push({ 'iconUrl':'{{ URLI }}','titre':'c0','lat':'{{gisment.latitude}}','lng':'{{gisment.longitude}}'});
@@ -161,18 +161,11 @@
 
             var greenIcon = new L.Icon({
               iconUrl: tab[i].iconUrl,
-              shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-              iconSize: [25, 41],
-              iconAnchor: [12, 41],
-              popupAnchor: [1, -34],
-              shadowSize: [41, 41]
+              iconSize: [25, 41]
             });
 
             var marker = L.marker([tab[i].lat, tab[i].lng], {icon: greenIcon}).addTo(map);
             marker.bindPopup(tab[i].titre);
-
-
-
         }
 
 
