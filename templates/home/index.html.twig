@@ -3,20 +3,54 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-{% include 'navBar/navbar.html.twig' %}
+<div class="container-home bg-dark">
+    <nav style="background-color: #000000;" class="navbar fixed-bottom navbar-dark">
+        <div style="text-align: center;" class="d-flex justify-content-around align-items-center w-100">
+          <a style="font-family: 'Megrim', cursive; color: #B66B1A; font-size: 30px; font-weight: 600;" class="navbar-brand" href="index.html">ARCHEA</a>
+        </div>
+    </nav>
 
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1 class="text-3xl font-bold underline">Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Benoit/workspace/hackaton/archea/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Benoit/workspace/hackaton/archea/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
+    <div class="container">
+        <div class="row justify-content-center" style="margin-top: 128px;">
+          <div id="login">
+            <h2 class="text-center mb-4 text-white">Connexion</h2>
+            <form>
+              <div class="form-group">
+                <label for="email" class="text-white">Adresse Email:</label>
+                <input type="email" class="form-control rounded-pill" id="email" placeholder="Adresse mail">
+              </div>
+              <div class="form-group">
+                <label for="pwd" class="text-white">Mot de passe:</label>
+                <input type="password" class="form-control rounded-pill" id="pwd" placeholder="Mot de passe">
+              </div>
+              <button style="background-color: #616C35;" type="submit" class="btn rounded-pill btn-block">Se connecter</button>
+              <p class="text-center mt-3 text-white" style="color: #B66B1A; font-weight: 600;">Pas de compte? <a onclick="switchDiv()" style="color: #B66B1A;">Créez un compte</a>.</p>
+            </form>
+          </div>
+          <div id="register" style="display: none;">
+            <h2 class="text-center mb-4 text-white">Inscription</h2>
+            <form>
+              <div class="form-group">
+                <label for="nom" class="text-white">Nom:</label>
+                <input type="text" class="form-control rounded-pill" id="nom" placeholder="Entrez votre nom">
+              </div>
+              <div class="form-group">
+                <label for="prenom" class="text-white">Prénom:</label>
+                <input type="text" class="form-control rounded-pill" id="prenom" placeholder="Entrez votre prénom">
+              </div>
+              <div class="form-group">
+                <label for="email" class="text-white">Adresse Email:</label>
+                <input type="text" class="form-control rounded-pill" id="email" placeholder="Entrez votre adresse email">
+              </div>
+              <div class="form-group">
+                <label for="pwd" class="text-white">Mot de passe:</label>
+                <input type="password" class="form-control rounded-pill" id="pwd" placeholder="Entrez votre mot de passe">
+              </div>
+              <button style="background-color: #616C35;" type="submit" class="btn rounded-pill btn-block">S'inscrire</button>
+              <p class="text-center mt-3 text-white" style="color: #B66B1A; font-weight: 600;">Déjà inscrit? <a onclick="switchDiv()" style="color: #B66B1A;">Connectez vous</a>.</p>
+            </form>
+          </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
